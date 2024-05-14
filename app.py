@@ -2,7 +2,7 @@ import streamlit as st
 import requests
 
 # Definir la URL del emulador Wokwi para encender la bombilla
-URL_BOMBILLA = "URL_DE_TU_EMULADOR_WOKWI_PARA_ENCENDER_LA_BOMBILLA"
+URL_BOMBILLA = "https://wokwi.com/projects/377066087789108225"
 
 # Función para enviar la señal y encender la bombilla
 def encender_bombilla():

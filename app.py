@@ -1,33 +1,28 @@
 import paho.mqtt.client as paho
 import time
-import json
 import streamlit as st
-import cv2
-import numpy as np
-#from PIL import Image
-from PIL import Image as Image, ImageOps as ImagOps
-from keras.models import load_model
+import requests
 
+broker = "broker.mqttdashboard.com"
+port = 1883
+client1 = paho.Client("Intento1")
 
-broker="broker.mqttdashboard.com"
-port=1883
-client1= paho.Client("Intento1")
-client1.on_message = on_message
-client1.on_publish = on_publish
-client1.connect(broker,port)
-
-def on_publish(client,userdata,result):             #create function for callback
-    print("el dato ha sido publicado \n")
-    pass
+def on_publish(client, userdata, result):
+    print("El dato ha sido publicado\n")
 
 def on_message(client, userdata, message):
     global message_received
     time.sleep(2)
-    message_received=str(message.payload.decode("utf-8"))
+    message_received = str(message.payload.decode("utf-8"))
     st.write(message_received)
+
+client1.on_message = on_message
+client1.on_publish = on_publish
+
+client1.connect(broker, port)
+
 URL_BOMBILLA = "https://wokwi.com/projects/377066087789108225"
 
-# Función para enviar la señal y encender la bombilla
 def encender_bombilla():
     try:
         response = requests.get(URL_BOMBILLA)
@@ -38,14 +33,13 @@ def encender_bombilla():
     except requests.exceptions.RequestException as e:
         st.error(f"Error de conexión: {e}")
 
-# Configurar la aplicación de Streamlit
 st.title("Control de Bombillo")
 st.write("Escribe algo en el siguiente cuadro y presiona el botón para encender la luz.")
 
 input_texto = st.text_input("Escribe aquí:")
 boton_encender = st.button("Encender Bombilla")
 
-if (input_texto=="hola"):
-    client1.publish("MAR","{'led': 'Enciende'}",qos=0, retain=False)
-if (input_texto=="adios"):
-    client1.publish("MAR","{'led': 'Apaga'}",qos=0, retain=False)
+if input_texto == "hola":
+    client1.publish("MAR", "{\"led\": \"Enciende\"}", qos=0, retain=False)
+if input_texto == "adios":
+    client1.publish("MAR", "{\"led\": \"Apaga\"}", qos=0, retain=False)

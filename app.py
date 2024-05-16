@@ -5,7 +5,7 @@ import requests
 
 broker = "broker.mqttdashboard.com"
 port = 1883
-client1 = paho.Client("Intento1")
+client1 = paho.Client("Intento3")
 
 def on_publish(client, userdata, result):
     print("El dato ha sido publicado\n")

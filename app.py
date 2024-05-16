@@ -39,7 +39,7 @@ st.write("Escribe algo en el siguiente cuadro y presiona el botón para encender
 input_texto = st.text_input("Escribe aquí:")
 boton_encender = st.button("Encender Bombilla")
 
-if input_texto == "hola":
-    client1.publish("MAR", "{\"led\": \"Enciende\"}", qos=0, retain=False)
-if input_texto == "adios":
-    client1.publish("MAR", "{\"led\": \"Apaga\"}", qos=0, retain=False)
+if (input_texto=="hola"):
+    client1.publish("MAR","{'led': 'Enciende'}",qos=0, retain=False)
+if (input_texto=="adios"):
+    client1.publish("MAR","{'led': 'Apaga'}",qos=0, retain=False)
